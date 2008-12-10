@@ -7,7 +7,7 @@
 
 Name:           python-rdflib
 Version:        2.4.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/rdfpipe
 
 %changelog
+* Wed Dec 10 2008 Ignacio Vazquez-Abrams <ivazqueznet+rpm@gmail.com> - 2.4.0-8
+- Rebuild for Python 2.6
+
 * Wed Oct  1 2008 David Malcolm <dmalcolm@redhat.com> - 2.4.0-7
 - fix tab/space issue in specfile
 
