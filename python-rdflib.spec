@@ -7,7 +7,7 @@
 
 Name:           python-rdflib
 Version:        2.4.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/rdfpipe
 
 %changelog
+* Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.4.0-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Thu Feb 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.4.0-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
