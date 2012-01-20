@@ -4,14 +4,14 @@
 %define run_tests 0
 
 Name:           python-rdflib
-Version:        3.1.0
-Release:        2%{?dist}
+Version:        3.2.0
+Release:        1%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
 License:        BSD
-URL:            http://rdflib.net
-Source0:        http://rdflib.googlecode.com/files/rdflib-%{version}.tar.gz
+URL:            http://code.google.com/p/rdflib/
+Source0:        http://rdflib.googlecode.com/files/rdflib-%{version}-RC.tar.gz
 BuildArch:      noarch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -37,7 +37,7 @@ be backed by any one of a number of store implementations, including
 memory, MySQL, Redland, SQLite, Sleepycat, ZODB and SQLObject.
 
 %prep
-%setup -q -n rdflib-%{version}
+%setup -q -n rdflib-%{version}-RC
 
 %build
 %{__python} setup.py build
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Fri Jan 20 2012 Pierre-Yves Chibon <pingou@pingoured.fr> - 3.2.0-1
+- Update to 3.2.0-RC which seem to be same as 3.2.0
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
