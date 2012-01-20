@@ -5,7 +5,7 @@
 
 Name:           python-rdflib
 Version:        3.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Fri Jan 20 2012 Pierre-Yves Chibon <pingou@pingoured.fr> - 3.2.0-2
+- Found the official sources of the 3.2.0 release
+
 * Fri Jan 20 2012 Pierre-Yves Chibon <pingou@pingoured.fr> - 3.2.0-1
 - Update to 3.2.0-RC which seem to be same as 3.2.0
 
