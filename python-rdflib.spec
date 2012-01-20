@@ -11,7 +11,7 @@ Summary:        Python library for working with RDF
 Group:          Development/Languages
 License:        BSD
 URL:            http://code.google.com/p/rdflib/
-Source0:        http://rdflib.googlecode.com/files/rdflib-%{version}-RC.tar.gz
+Source0:        http://rdflib.googlecode.com/files/rdflib-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -37,7 +37,7 @@ be backed by any one of a number of store implementations, including
 memory, MySQL, Redland, SQLite, Sleepycat, ZODB and SQLObject.
 
 %prep
-%setup -q -n rdflib-%{version}-RC
+%setup -q -n rdflib-%{version}
 
 %build
 %{__python} setup.py build
