@@ -5,7 +5,7 @@
 
 Name:           python-rdflib
 Version:        3.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
@@ -15,6 +15,7 @@ Source0:        http://rdflib.googlecode.com/files/rdflib-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+Requires:       python-isodate
 
 BuildRequires:  python-devel
 %if 0%{?fedora} >= 8
@@ -73,6 +74,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Mon Jan 23 2012 Pierre-Yves Chibon <pingou@pingoured.fr> - 3.2.0-3
+- Add python-isodate as R (RHBZ#784027)
+
 * Fri Jan 20 2012 Pierre-Yves Chibon <pingou@pingoured.fr> - 3.2.0-2
 - Found the official sources of the 3.2.0 release
 
