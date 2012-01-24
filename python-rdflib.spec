@@ -1,22 +1,21 @@
-# The upstream test suite does not pass on recent versions of Fedora
-# See package review (bug 378841)
-# For now, we disable running the test suite:
-%define run_tests 0
+%define run_tests 1
 
 Name:           python-rdflib
 Version:        3.2.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
 License:        BSD
 URL:            http://code.google.com/p/rdflib/
 Source0:        http://rdflib.googlecode.com/files/rdflib-%{version}.tar.gz
+Patch0:         0001-Skip-test-if-it-can-not-join-the-network.patch
 BuildArch:      noarch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 Requires:       python-isodate
 
+BuildRequires:  python-isodate
 BuildRequires:  python-devel
 %if 0%{?fedora} >= 8
 BuildRequires: python-setuptools-devel
@@ -40,6 +39,8 @@ memory, MySQL, Redland, SQLite, Sleepycat, ZODB and SQLObject.
 %prep
 %setup -q -n rdflib-%{version}
 
+%patch0 -p0 -b .test
+
 %build
 %{__python} setup.py build
 
@@ -62,6 +63,7 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/plugins/parsers/notation3.py
 
 %check
 %if %{run_tests}
+sed -i -e "s|'--with-doctest'|#'--with-doctest'|" run_tests.py
 %{__python} run_tests.py
 %endif
 
@@ -74,6 +76,10 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Tue Jan 24 2012 Pierre-Yves Chibon <pingou@pingoured.fr> - 3.2.0-4
+- Re-add the unittests, for that, patch one and disable the run of
+the tests in the documentation of the code.
+
 * Mon Jan 23 2012 Pierre-Yves Chibon <pingou@pingoured.fr> - 3.2.0-3
 - Add python-isodate as R (RHBZ#784027)
 
