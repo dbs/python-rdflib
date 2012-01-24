@@ -9,6 +9,7 @@ Group:          Development/Languages
 License:        BSD
 URL:            http://code.google.com/p/rdflib/
 Source0:        http://rdflib.googlecode.com/files/rdflib-%{version}.tar.gz
+# Upstreamed: http://code.google.com/p/rdflib/issues/detail?id=206
 Patch0:         0001-Skip-test-if-it-can-not-join-the-network.patch
 BuildArch:      noarch
 
