@@ -65,6 +65,7 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/plugins/parsers/notation3.py
 %check
 %if %{run_tests}
 sed -i -e "s|'--with-doctest'|#'--with-doctest'|" run_tests.py
+sed -i -e "s|'--doctest-tests'|#'--doctest-tests'|" run_tests.py
 %{__python} run_tests.py
 %endif
 
