@@ -2,7 +2,7 @@
 
 Name:           python-rdflib
 Version:        3.2.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
@@ -66,7 +66,8 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/plugins/parsers/notation3.py
 %if %{run_tests}
 sed -i -e "s|'--with-doctest'|#'--with-doctest'|" run_tests.py
 sed -i -e "s|'--doctest-tests'|#'--doctest-tests'|" run_tests.py
-%{__python} run_tests.py
+sed -i -e "s|with-doctest = 1|#with-doctest = 1|" setup.cfg
+%{__python} run_tests.py --verbose
 %endif
 
 %clean
@@ -78,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Wed Mar 27 2013 David Malcolm <dmalcolm@redhat.com> - 3.2.3-4
+- disable doctests (rhbz#914414)
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
