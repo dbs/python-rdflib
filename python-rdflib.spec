@@ -2,7 +2,7 @@
 
 Name:           python-rdflib
 Version:        3.2.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
@@ -79,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.3-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Wed Mar 27 2013 David Malcolm <dmalcolm@redhat.com> - 3.2.3-4
 - disable doctests (rhbz#914414)
 
