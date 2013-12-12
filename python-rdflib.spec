@@ -2,7 +2,7 @@
 
 Name:           python-rdflib
 Version:        3.2.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
@@ -16,11 +16,7 @@ Requires:       python-isodate
 
 BuildRequires:  python-isodate
 BuildRequires:  python-devel
-%if 0%{?fedora} >= 8
-BuildRequires: python-setuptools-devel
-%else
 BuildRequires: python-setuptools
-%endif
 
 %if %{run_tests}
 BuildRequires:  python-nose >= 0.9.2
@@ -79,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/*
 
 %changelog
+* Thu Dec 12 2013 Toshio Kuratomi <toshio@fedoraproject.org> - 3.2.3-6
+- Remove BR of python-setuptools-devel
+
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.3-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
