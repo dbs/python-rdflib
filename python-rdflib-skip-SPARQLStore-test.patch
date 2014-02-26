@@ -1,0 +1,33 @@
+From 9f7aefae6f21c70a936a9667299dda894b1b5d0e Mon Sep 17 00:00:00 2001
+From: Dan Scott <dan@coffeecode.net>
+Date: Wed, 26 Feb 2014 11:25:22 -0500
+Subject: [PATCH] Skip SPARQLStore test if SPARQLStore is not installed
+
+Trying to package RDFLib 4.1.0 on Fedora, I ran into a blocker with this test.
+SPARQLStore is not yet packaged for Fedora, and unlike other tests which are
+skipped if SPARQLStore is not installed, this one throws a fatal error. So
+let's skip it like the others.
+
+Signed-off-by: Dan Scott <dan@coffeecode.net>
+---
+ test/test_core_sparqlstore.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/test/test_core_sparqlstore.py b/test/test_core_sparqlstore.py
+index a85fb8f..e7f0c09 100644
+--- a/test/test_core_sparqlstore.py
++++ b/test/test_core_sparqlstore.py
+@@ -1,4 +1,10 @@
+ import unittest
++try:
++    import SPARQLWrapper
++except ImportError:
++    from nose.exc import SkipTest
++    raise SkipTest("SPARQLWrapper not installed")
++
+ from rdflib.graph import Graph
+ 
+ 
+-- 
+1.8.5.3
+

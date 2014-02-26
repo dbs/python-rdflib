@@ -1,20 +1,24 @@
 %define run_tests 1
 
 Name:           python-rdflib
-Version:        3.2.3
-Release:        6%{?dist}
+Version:        4.1.0
+Release:        1%{?dist}
 Summary:        Python library for working with RDF
 
 Group:          Development/Languages
 License:        BSD
-URL:            http://code.google.com/p/rdflib/
+URL:            https://github.com/RDFLib/rdflib
 Source0:        http://pypi.python.org/packages/source/r/rdflib/rdflib-%{version}.tar.gz
+Patch1:         python-rdflib-skip-SPARQLStore-test.patch
 BuildArch:      noarch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 Requires:       python-isodate
+Requires:       pyparsing
 
+BuildRequires:  python-html5lib
 BuildRequires:  python-isodate
+BuildRequires:  pyparsing
 BuildRequires:  python-devel
 BuildRequires: python-setuptools
 
@@ -26,13 +30,18 @@ BuildRequires:  python-nose >= 0.9.2
 RDFLib is a Python library for working with RDF, a simple yet powerful
 language for representing information.
 
-The library contains parsers and serializers for RDF/XML, N3, NTriples,
-Turtle, TriX and RDFa. The library presents a Graph interface which can
-be backed by any one of a number of store implementations, including
-memory, MySQL, Redland, SQLite, Sleepycat, ZODB and SQLObject.
+The library contains parsers and serializers for RDF/XML, N3,
+NTriples, Turtle, TriX, RDFa and Microdata. The library presents
+a Graph interface which can be backed by any one of a number of
+Store implementations. The core rdflib includes store
+implementations for in memory storage, persistent storage on top
+of the Berkeley DB, and a wrapper for remote SPARQL endpoints.
+
+A SPARQL 1.1 engine is also included.
 
 %prep
 %setup -q -n rdflib-%{version}
+%patch1 -p1
 find -name "*.pyc" -delete
 
 sed -i -e 's|_sn_gen=bnode_uuid()|_sn_gen=bnode_uuid|' test/test_bnode_ncname.py
@@ -57,6 +66,20 @@ chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/plugins/parsers/ntriples.py
 # __main__ parses the file given on the command line:
 chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/plugins/parsers/notation3.py
 
+# __main__ parses the file or URI given on the command line:
+chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/tools/rdfpipe.py
+
+# __main__ runs a test (well, it's something)
+chmod +x $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/extras/infixowl.py
+
+# sed these headers out as they include no __main__
+for lib in $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/extras/describer.py \
+    $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/plugins/parsers/pyRdfa/extras/httpheader.py \
+    $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/plugins/parsers/structureddata.py; do
+ sed '1{\@^#!/usr/bin/env python@d}' $lib > $lib.new &&
+ touch -r $lib $lib.new &&
+ mv $lib.new $lib
+done
 
 %check
 %if %{run_tests}
@@ -73,8 +96,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc LICENSE
 %{python_sitelib}/*
+%{_bindir}/*
 
 %changelog
+* Thu Dec 12 2013 Dan Scott <dan@coffeecode.net> - 4.1.0-1
+- Update for 4.1.0 release
+- Support for TRiG, microdata parsers, and HTML structured data
+- Patch to skip SPARQLStore test per upstream https://github.com/RDFLib/rdflib/pull/359
+
 * Thu Dec 12 2013 Toshio Kuratomi <toshio@fedoraproject.org> - 3.2.3-6
 - Remove BR of python-setuptools-devel
 
