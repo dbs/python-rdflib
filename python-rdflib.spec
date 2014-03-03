@@ -11,6 +11,7 @@ URL:            https://github.com/RDFLib/rdflib
 Source0:        http://pypi.python.org/packages/source/r/rdflib/rdflib-%{version}.tar.gz
 Patch1:         python-rdflib-skip-SPARQLStore-test.patch
 Patch2:         unpin-html5lib-requirement.patch
+Patch3:         python-rdflib-SPARQLWrapper-optional.patch
 BuildArch:      noarch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -44,6 +45,7 @@ A SPARQL 1.1 engine is also included.
 %setup -q -n rdflib-%{version}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 find -name "*.pyc" -delete
 
 sed -i -e 's|_sn_gen=bnode_uuid()|_sn_gen=bnode_uuid|' test/test_bnode_ncname.py
