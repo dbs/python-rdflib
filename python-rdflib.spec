@@ -28,6 +28,8 @@ BuildRequires: python-setuptools
 BuildRequires:  python-nose >= 0.9.2
 %endif
 
+Obsoletes:      python-rdfextras <= 0.1-7
+
 %description
 RDFLib is a Python library for working with RDF, a simple yet powerful
 language for representing information.
