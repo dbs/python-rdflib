@@ -13,10 +13,11 @@ Patch1:         python-rdflib-SPARQLWrapper-optional.patch
 BuildArch:      noarch
 
 BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+Requires:       python-html5lib >= 1:
 Requires:       python-isodate
 Requires:       pyparsing
 
-BuildRequires:  python-html5lib
+BuildRequires:  python-html5lib >= 1:
 BuildRequires:  python-isodate
 BuildRequires:  pyparsing
 BuildRequires:  python-devel
