@@ -1,4 +1,6 @@
 %define run_tests 1
+%global modulename rdflib
+%global with_python3 1
 
 Name:           python-rdflib
 Version:        4.1.2
@@ -7,8 +9,8 @@ Summary:        Python library for working with RDF
 
 Group:          Development/Languages
 License:        BSD
-URL:            https://github.com/RDFLib/rdflib
-Source0:        http://pypi.python.org/packages/source/r/rdflib/rdflib-%{version}.tar.gz
+URL:            https://github.com/RDFLib/%{modulename}
+Source0:        http://pypi.python.org/packages/source/r/%{modulename}/%{modulename}-%{version}.tar.gz
 Patch1:         python-rdflib-SPARQLWrapper-optional.patch
 BuildArch:      noarch
 
@@ -20,8 +22,19 @@ Requires:       pyparsing
 BuildRequires:  python-html5lib >= 1:
 BuildRequires:  python-isodate
 BuildRequires:  pyparsing
-BuildRequires:  python-devel
+BuildRequires:  python2-devel
 BuildRequires: python-setuptools
+
+%if 1%{?with_python3}
+Requires:       python3-html5lib >= 1:
+Requires:       python3-isodate
+Requires:       python3-pyparsing
+BuildRequires:  python3-html5lib >= 1:
+BuildRequires:  python3-isodate
+BuildRequires:  python3-pyparsing
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+%endif
 
 %if %{run_tests}
 BuildRequires:  python-nose >= 0.9.2
@@ -42,19 +55,55 @@ of the Berkeley DB, and a wrapper for remote SPARQL endpoints.
 
 A SPARQL 1.1 engine is also included.
 
+%if 0%{?with_python3}
+%package -n python3-%{modulename}
+Summary:        Python library for working with RDF
+Group:          Development/Languages
+
+%description -n python3-%{modulename}
+RDFLib is a Python library for working with RDF, a simple yet powerful
+language for representing information.
+
+The library contains parsers and serializers for RDF/XML, N3,
+NTriples, Turtle, TriX, RDFa and Microdata. The library presents
+a Graph interface which can be backed by any one of a number of
+Store implementations. The core rdflib includes store
+implementations for in memory storage, persistent storage on top
+of the Berkeley DB, and a wrapper for remote SPARQL endpoints.
+
+A SPARQL 1.1 engine is also included.
+%endif
+
 %prep
-%setup -q -n rdflib-%{version}
+%setup -q -n %{modulename}-%{version}
 %patch1 -p1
 find -name "*.pyc" -delete
 
 sed -i -e 's|_sn_gen=bnode_uuid()|_sn_gen=bnode_uuid|' test/test_bnode_ncname.py
 
+%if 0%{?with_python3}
+rm -rf %{py3dir}
+cp -a . %{py3dir}
+%endif
 
 %build
 %{__python} setup.py build
 
+%if 0%{?with_python3}
+pushd %{py3dir}
+%{__python3} setup.py build
+popd
+%endif
+
 %install
 rm -rf $RPM_BUILD_ROOT
+
+%if 0%{?with_python3}
+pushd %{py3dir}
+%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
+popd
+%endif
+
 %{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 cp LICENSE $RPM_BUILD_ROOT/%{python_sitelib}/rdflib/LICENSE
 
@@ -96,7 +145,14 @@ PYTHONPATH=./build/lib %{__python} run_tests.py --verbose
 %defattr(-,root,root,-)
 %doc LICENSE
 %{python_sitelib}/*
+
+%if 0%{?with_python3}
+%files -n python3-%{modulename}
+%defattr(-,root,root,-)
+%doc LICENSE
+%{python3_sitelib}/*
 %{_bindir}/*
+%endif
 
 %changelog
 * Fri Apr 18 2014 Dan Scott <dan@coffeecode.net> - 4.1.2-1
