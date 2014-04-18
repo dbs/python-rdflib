@@ -1,7 +1,7 @@
 %define run_tests 1
 
 Name:           python-rdflib
-Version:        4.1.1
+Version:        4.1.2
 Release:        1%{?dist}
 Summary:        Python library for working with RDF
 
@@ -89,7 +89,7 @@ done
 sed -i -e "s|'--with-doctest'|#'--with-doctest'|" run_tests.py
 sed -i -e "s|'--doctest-tests'|#'--doctest-tests'|" run_tests.py
 sed -i -e "s|with-doctest = 1|#with-doctest = 1|" setup.cfg
-%{__python} run_tests.py --verbose
+PYTHONPATH=./build/lib %{__python} run_tests.py --verbose
 %endif
 
 %files
@@ -99,6 +99,10 @@ sed -i -e "s|with-doctest = 1|#with-doctest = 1|" setup.cfg
 %{_bindir}/*
 
 %changelog
+* Fri Apr 18 2014 Dan Scott <dan@coffeecode.net> - 4.1.2-1
+- Update for 4.1.2 release
+- Add PYTHONPATH awareness for running tests
+
 * Tue Mar 04 2014 Dan Scott <dan@coffeecode.net> - 4.1.1-1
 - Update for 4.1.1 release
 - Support for RDF 1.1 and HTML5
